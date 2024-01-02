@@ -1,23 +1,20 @@
 <template>
-  <div>
-    <website-details
-      v-for="website in websites"
-      :key="website.id"
-      :title="website.title"
-      :description="website.description"
-      :link="website.link"    
-    ></website-details>
-  </div>
+  <the-header title="About Me"></the-header>
+  <stored-websites :websites="websites"></stored-websites>
+
+  
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import WebsiteDetails from "./components/WebsiteResource/WebsiteDetails.vue";
+import StoredWebsites from "./components/WebsiteResource/StoredWebsites.vue";
+import TheHeader from "./components/layouts/TheHeader.vue";
+
 
 export default defineComponent({
   name: "App",
   components: {
-    WebsiteDetails,
+    StoredWebsites, TheHeader
   },
   setup() {
     const websites = [
@@ -43,4 +40,18 @@ export default defineComponent({
 </script>
 
 <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  margin: 0;
+}
 </style>
