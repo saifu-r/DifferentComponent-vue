@@ -11,17 +11,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent} from "vue";
 import WebsiteDetails from "./WebsiteDetails.vue";
 
 export default defineComponent({
   components: { WebsiteDetails },
-  props: {
-    websites: {
-      type: Array,
-      required: true,
-    },
-  }
+  inject: ['websites']
 });
 </script>
 
