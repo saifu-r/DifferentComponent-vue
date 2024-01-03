@@ -1,9 +1,11 @@
+
+import { mergeProps } from 'vue';
 <template>
   <li>
     <base-card>
       <header>
         <h3>{{ title }}</h3>
-        <base-button mode="classic">Delete</base-button>
+        <base-button mode="flat" @click="handleRemoveWebsite(id)">Delete</base-button>
       </header>
 
       <p>{{ description }}</p>
@@ -13,11 +15,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import BaseCard from "../UI/BaseCard.vue";
+import { defineComponent, inject, ref } from "vue";
+
 
 export default defineComponent({
-  components: { BaseCard },
+
+  inject: ['removeWebsite'],
   props: {
     id: {
       type: Number,
@@ -36,6 +39,21 @@ export default defineComponent({
       required: true,
     },
   },
+  
+  setup(props){
+    const propId= ref(props.id)
+    const removeWebsite= inject("removeWebsite")
+
+    const handleRemoveWebsite= (id: number)=>{
+      if(removeWebsite){
+        removeWebsite(id)
+      }
+    }
+
+   
+
+    return {removeWebsite, propId, handleRemoveWebsite}
+  }
 });
 </script>
 

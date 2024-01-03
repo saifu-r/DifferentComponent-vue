@@ -1,17 +1,32 @@
 <template>
+  <base-dialog v-if="inputIsInvalid" @close="confirmError" title="Invalid Input">
+  <template #default>
+    <p>Unfortunately, at least one input value is invalid</p>
+    <p>Please check all the inputs</p>
+  </template>
+
+  <template #actions>
+    <base-button @click="confirmError">Okay</base-button>
+  </template>
+</base-dialog>
   <base-card>
-    <form>
+    <form @submit.prevent="submitWebsite">
       <div class="form-control">
         <label>Title</label>
-        <input id="title" name="title" type="text" />
+        <input id="title" name="title" type="text" v-model="enteredTitle" />
       </div>
       <div class="form-control">
         <label>Description</label>
-        <textarea id="description" name="description" rows="3"></textarea>
+        <textarea
+          id="description"
+          name="description"
+          rows="3"
+          v-model="enteredDescription"
+        ></textarea>
       </div>
       <div class="form-control">
         <label>Link</label>
-        <input id="link" name="link" type="url" />
+        <input id="link" name="link" type="url" v-model="enteredLink" />
       </div>
       <div>
         <base-button type="submit">Add Website</base-button>
@@ -19,6 +34,54 @@
     </form>
   </base-card>
 </template>
+
+<script lang="ts">
+import { ref, inject } from "vue";
+
+export default {
+  setup() {
+    const enteredTitle = ref("");
+    const enteredDescription = ref("");
+    const enteredLink = ref("");
+    const inputIsInvalid = ref(false);
+
+    const addWebsite = inject("addwebsite");
+
+    const submitWebsite = () => {
+      if (
+        enteredTitle.value.trim() === "" ||
+        enteredDescription.value.trim() === "" ||
+        enteredLink.value.trim() === ""
+      ) {
+        // alert("please input data")
+        inputIsInvalid.value = true;
+      } else {
+        addWebsite(
+          enteredTitle.value,
+          enteredDescription.value,
+          enteredLink.value
+        );
+        enteredTitle.value = "";
+        enteredDescription.value = "";
+        enteredLink.value = "";
+      }
+    };
+
+    const confirmError= ()=>{
+        inputIsInvalid.value = false;
+    }
+
+    return {
+      enteredTitle,
+      enteredDescription,
+      enteredLink,
+      submitWebsite,
+      inputIsInvalid,
+      confirmError
+    };
+  },
+};
+</script>
 
 <style scoped>
 label {
